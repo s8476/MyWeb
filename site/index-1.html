@@ -1,60 +1,108 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<SCRIPT>
+function GetCookie (name) { 
+var arg = name + "="; 
+var alen = arg.length; 
+var clen = document.cookie.length; 
+var i = 0; 
+while (i < clen) {
+var j = i + alen; 
+if (document.cookie.substring(i, j) == arg) 
+return getCookieVal (j); 
+i = document.cookie.indexOf(" ", i) + 1; 
+if (i == 0) break; 
+} 
+return null;
+}
+function SetCookie (name, value) { 
+var argv = SetCookie.arguments; 
+var argc = SetCookie.arguments.length; 
+var expires = (argc > 2) ? argv[2] : null; 
+var path = (argc > 3) ? argv[3] : null; 
+var domain = (argc > 4) ? argv[4] : null; 
+var secure = (argc > 5) ? argv[5] : false; 
+document.cookie = name + "=" + escape (value) + 
+((expires == null) ? "" : ("; expires=" + expires.toGMTString())) + 
+((path == null) ? "" : ("; path=" + path)) + 
+((domain == null) ? "" : ("; domain=" + domain)) + 
+((secure == true) ? "; secure" : "");
+}
+function DeleteCookie (name) { 
+var exp = new Date(); 
+exp.setTime (exp.getTime() - 1); 
+var cval = GetCookie (name); 
+document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
+}
+var expDays = 30;
+var exp = new Date(); 
+exp.setTime(exp.getTime() + (expDays*24*60*60*1000));
+function amt(){
+var count = GetCookie('count')
+if(count == null) {
+SetCookie('count','1')
+return 1
+}
+else {
+var newcount = parseInt(count) + 1;
+DeleteCookie('count')
+SetCookie('count',newcount,exp)
+return count
+}
+}
+function getCookieVal(offset) {
+var endstr = document.cookie.indexOf (";", offset);
+if (endstr == -1)
+endstr = document.cookie.length;
+return unescape(document.cookie.substring(offset, endstr));
+}
+</SCRIPT>
+<SCRIPT>
+document.write("你拜訪了 <b>" + amt() + "</b> 次.")
+</SCRIPT>
 
-<head>
+<html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>----Index----</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
-<link href="layout.css" rel="stylesheet" type="text/css" />
-
+<head>
+<title>JavaScript Clock</title>
 </head>
 
-<body id="index_1" onload="new ElementMaxHeight();">
-	<div id="header_tall">
-		<div id="main">
-			<!--header -->
-			<div id="header">
-				<div class="h_logo">
-						<div class="left">
-						<img alt="" src="images/logo.jpg" /><br />
-					</div>
-					<div class="right">
-						<a href="#">RSS</a>				</div>
-					<div class="clear"></div>
-				</div>
-				<div id="menu">
-					<div class="rightbg">
-						<div class="leftbg">
-							<div class="padding">
-								<ul>
-									<li><a href="tindex.html">About us</a></li>
-									<li><span>Resume</span></li>
-									<li><a href="index-2.html">Products</a></li>
-									<li><a href="index-3.html">Clients</a></li>
-									<li><a href="index-4.html">Services</a></li>
-									<li class="last"><a href="index-5.html">Contacts</a></li>
-								</ul>
-								<br class="clear" />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="content">
-					<img alt="" src="images/header_t1.jpg" /><br />
-					<img alt="" src="images/header_t2.jpg" /><br />
-					<div class="text">
-						<br />
-					</div>
-					<a href="#"><img alt="" src="images/header_click_here.jpg" /></a><div class="clear"></div>
-				</div>
-			</div>
-			<!--header end-->
+<body ONLOAD="showdate()">
+<script language="JavaScript">
 
-			
-			
-			
-			
-			
+function showdate()
+{
+
+today = new Date();
+months = new Array();
+months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  if (today.getYear() >= 2000)  {
+    var prefix = "";
+  }
+  else  {
+    var prefix = "19";
+  }
+
+var st="";
+   i=0;
+  document.dateform.times.value = today.getHours()+":"+today.getMinutes()+":";
+  if (today.getSeconds() <=9 ) {
+	st="0";
+  }
+  document.dateform.times.value += st + today.getSeconds();
+
+  document.dateform.dates.value = today.getDate()+"-"
+  document.dateform.dates.value += months[today.getMonth()]+"-";
+  document.dateform.dates.value += prefix+today.getYear();
+  setTimeout("showdate()",700);
+}
+</script>
+
+
+<form name="dateform">
+  <p>Date: <input type="text" name="dates" size="10"></p>
+  <p>Time: <input type="text" name="times" size="8"> </p>
+</form>
+
 			      <table style="line-height: 20px; color: rgb(79,79,79)" border="0" cellspacing="0" cellpadding="0" align="center">
     <tbody>
         <tr>
@@ -183,24 +231,7 @@
         </tr>
     </tbody>
 </table>
-            
-			
-			
-			
-			
-			
-			
-			
+   
 
-		
-	
-							
-
-							
-									</p>
-								
-								</div>
-							</div>
-						</div>				
 </body>
 </html>
